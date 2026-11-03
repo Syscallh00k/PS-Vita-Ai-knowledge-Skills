@@ -106,6 +106,15 @@ policy. PCSX AwO also uses this to persist per-game overrides between sessions.
 | PSP | not viable without heavy dynarec work |
 | PS3 / Xbox 360 | not viable |
 
+One data point worth noting: **melonDS-Vita runs a DS emulator on this hardware using
+an ARM interpreter and software rasterisers**, with no dynarec and no shader
+compiler. When the guest GPU is simple, a software rasteriser plus a `vita2d` blit
+can be both easier and more accurate than a shader pipeline.
+
+Full anatomy of an emulator port — platform directory, dynarec vs interpreter,
+memory budget, frontend requirements — is in
+[docs/44-emulator-port-anatomy.md](44-emulator-port-anatomy.md).
+
 ## 9. Sources
 
 - `Other Emulators/PCSX_AwO-master/Makefile.vita`, `frontend/vita/standalone.c`,

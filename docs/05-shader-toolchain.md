@@ -9,9 +9,13 @@ whole renderer.
 
 | Path | Tool | Runtime cost | Used by |
 |------|------|--------------|---------|
-| Offline Cg | `psp2cgc` → `.gxp` → `objcopy` into the binary | zero | Play!, PCSX AwO, anything with a fixed shader set |
+| Offline Cg | `psp2cgc` → `.gxp` → `objcopy` into the binary | zero | Play!, PCSX AwO, gxmfun, anything with a fixed shader set |
 | Runtime Cg | Cg source + `vitaShaRK`/`SceShaccCgExt` → program blob | ms per program, cached | Melee's GX permutations, UE-style material systems |
 | GLSL | `vitaGL` translates GLSL at runtime | ms per program | GL-based ports (Android loaders) |
+
+Runtime compilation has its own document now — API, options, logging and teardown in
+[docs/40-runtime-shader-compiler.md](40-runtime-shader-compiler.md). Read that before
+writing a compile wrapper by hand.
 
 ## 2. Offline: the simplest correct pipeline
 

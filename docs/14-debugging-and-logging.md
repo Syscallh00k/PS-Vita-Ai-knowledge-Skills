@@ -14,6 +14,8 @@ You will spend more time here than in the renderer. Set it up first.
 | GDB remote | high | n/a | stepping, breakpoints |
 
 Do file + on-screen from day one. Every reference project ends up with both.
+For the GDB path specifically (kvdb, UART/TCP, prerequisites and its alpha-stage
+limits), see [docs/41-kernel-debugging-gdb.md](41-kernel-debugging-gdb.md).
 
 ## 2. Minimal logger
 
