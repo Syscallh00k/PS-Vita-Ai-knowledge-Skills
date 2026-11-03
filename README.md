@@ -1,2 +1,1 @@
-# PS-Vita-Ai-knowledge-Skills
-A collection of documents about psvita development for ai
+# PS-Vita-Ai-knowledge-Skills | Gathered using deepseek v4 flash
