@@ -98,30 +98,6 @@ files it came from, and anything unproven says so.
 | [gamemaker-port](skills/skill-gamemaker-port.md) | Running a GameMaker title via YoYo Loader |
 | [release-pipeline](skills/skill-release-pipeline.md) | Versioning, CI, signed updates, shipping |
 
-
-
----
-
-## Where the material came from
-
-| Source in the workspace | What it taught |
-|-------------------------|----------------|
-| `Other Ports/melee-Vita-vita-port` | Decomp port, GX→GXM, shader cache, disc streaming, release discipline |
-| `Other Ports/raider-vita-master` | `so_util` ELF loading, hooking, libc bridge |
-| `Other Ports/The-Dark-Queen-Of-Mortholme-psvita-main` | Godot PCK patching, VPK wrapping |
-| `Other Emulators/PCSX_AwO-master` | Emulator frontend, Makefile build, offline Cg, PSARC |
-| `Other Emulators/play-master` | RWX VM blocks, GS→GXM shader set, CMake layout |
-| `soloader-template` | The canonical Android-to-Vita loader skeleton |
-| `Tools/` (25 utilities) | ELF/SELF conversion, plugin hooks, logging, dumps, NID tooling |
-| `Sdk/` | Real VitaSDK module headers and `libSce*` stub inventory |
-| `Emulator/` | Vita3K for pre-hardware testing |
-| `Arkham Asylum/Game Binarys - ps3` | PPC64 SELF and UE3 cooked package forensics |
-
-See [docs/26-ps3-and-ue3-target-notes.md](docs/26-ps3-and-ue3-target-notes.md) for
-the measured numbers from that last one.
-
----
-
 ## Conventions
 
 - One house style for all code: PascalCase functions, `auto Fn() -> T` trailing
@@ -129,48 +105,6 @@ the measured numbers from that last one.
 - Every constant quoted (clocks, block sizes, limits) comes from a header in
   `Sdk/include/psp2` or from a working project listed above.
 - "Never" lines are mistakes that have already cost someone a week.
-
-## Credits
-
-Docs 29–39 draw on
-**[yannis100/vita-port-skill](https://github.com/yannis100/vita-port-skill)** (MIT),
-which covers routes this repository originally had none of: vitaGL internals, static
-recompilation, cross-platform API emulation, app porting, the install-error catalogue
-and the TeaVM route. Nothing from it is redistributed here — those documents are our
-own writing that cites it.
-
-Docs 40–46 come from source trees read directly in this workspace: **vitaShaRK**,
-**kvdb**, **gxmfun**, **YoYo Loader**, **DaedalusX64-vitaGL**, **melonDS-Vita**,
-**vitaQuakeII**, **vitaWolfen**, **Xenity Engine** and **PSVita Unity Utilities**.
-
-Full attribution, plus what was deliberately **not** imported to avoid duplicating
-existing docs, is in [CREDITS.md](CREDITS.md).
-
-
-## Repository layout
-
-```
-.
-├── README.md
-├── CREDITS.md
-├── docs/     46 reference documents
-└── skills/   25 task playbooks
-```
-
-## Upstream checkers worth running
-
-Three scripts that answer the expensive questions live in
-[yannis100/vita-port-skill](https://github.com/yannis100/vita-port-skill)
-(`skills/vita-port/scripts/`) — they are not vendored here:
-
-```
-check_env.sh                 is this machine a valid VitaSDK host?
-audit_source.py <dir>        does this codebase fit the Vita at all?
-check_vpk.py build/x.vpk     will this package install, or fail with 0x8010113D?
-```
-
-What each one verifies is in [docs/39](docs/39-tooling-scripts.md).
-
 
 ## Start here
 
