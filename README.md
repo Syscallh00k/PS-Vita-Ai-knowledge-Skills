@@ -5,12 +5,6 @@ a game port compiled from a decompilation, an Android `.so` loader, a PS1 emulat
 a PS2 emulator frontend, a Godot content patch, a 25-tool dump of Vita development
 utilities, and a bare VitaSDK tree.
 
-Everything here is written to be **executed**, not admired. Each document names the
-files it came from, and anything unproven says so.
-
-> No game data, keys or proprietary modules live in this repository. Tools here
-> read *your* legally obtained copy and write converted output.
-
 ---
 
 ## Documentation
