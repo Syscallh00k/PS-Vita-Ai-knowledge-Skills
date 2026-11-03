@@ -1,1 +1,124 @@
 # PS-Vita-Ai-knowledge-Skills | Gathered using deepseek
+
+Notes, references and task playbooks assembled from real, working PS Vita projects:
+a game port compiled from a decompilation, an Android `.so` loader, a PS1 emulator,
+a PS2 emulator frontend, a Godot content patch, a 25-tool dump of Vita development
+utilities, and a bare VitaSDK tree.
+
+Everything here is written to be **executed**, not admired. Each document names the
+files it came from, and anything unproven says so.
+
+> No game data, keys or proprietary modules live in this repository. Tools here
+> read *your* legally obtained copy and write converted output.
+
+---
+
+## Documentation
+
+| # | Document | What it covers |
+|---|----------|----------------|
+| 01 | [Hardware & Memory Model](docs/01-vita-hardware-and-memory.md) | SoC, CPU/GPU, RAM split, memblock types, heap sizing |
+| 02 | [VitaSDK Reference](docs/02-vitasdk-reference.md) | What the SDK tree contains, module headers, stub libs, what's missing |
+| 03 | [Build & Packaging](docs/03-build-and-packaging.md) | CMake, `vita.cmake`, SELF/VPK, LiveArea, deploy loop |
+| 04 | [GXM Rendering](docs/04-gxm-rendering.md) | Contexts, shader patcher, render targets, state, blend, depth |
+| 05 | [Shader Toolchain](docs/05-shader-toolchain.md) | `psp2cgc`, `.gxp`, `libshacccg`, vitaShaRK, GLSL via vitaGL |
+| 06 | [Filesystem & I/O](docs/06-filesystem-and-io.md) | `ux0:`/`ur0:`/`app0:`, FIOS, async I/O, streaming threads |
+| 07 | [Memory Blocks & RWX](docs/07-memory-blocks-and-rwx.md) | `sceKernelAllocMemBlock`, VM blocks, JIT arenas, kubridge |
+| 08 | [Threading & Timing](docs/08-threading-and-timing.md) | pthread vs kernel threads, priorities, clocks, pacing |
+| 09 | [Input, HID & Motion](docs/09-input-hid-and-motion.md) | `SceCtrl`, `SceTouch`, `SceMotion`, remapping |
+| 10 | [Audio Output](docs/10-audio-output.md) | `SceAudioOut`, `SceAudioIn`, `SceAtrac`, ATRAC9, mixing |
+| 11 | [Video & Media](docs/11-video-and-media.md) | `SceAvPlayer`, H.264 constraints, transcoding |
+| 12 | [LiveArea & param.sfo](docs/12-livearea-and-param-sfo.md) | Bubble metadata, attribute flags, templates, icons |
+| 13 | [Trophies & NPDRM](docs/13-trophies-and-npdrm.md) | `SceNpTrophy`, trophy packs, `SceNpDrm` stubs |
+| 14 | [Debugging & Logging](docs/14-debugging-and-logging.md) | File logs, UDP loggers, on-screen debug screens, log plugins |
+| 15 | [Crash & Error Diagnostics](docs/15-crash-and-error-diagnostics.md) | `0x8xxxxxxx` codes, kernel dumps, physmem dumps, core parsing |
+| 16 | [SELF & ELF Format](docs/16-self-and-elf-format.md) | Vita SELF structure, `sceModuleInfo`, ELF↔SELF conversion |
+| 17 | [NID & Import System](docs/17-nid-and-import-system.md) | NIDs, module imports/exports, YAML stubs, name resolution |
+| 18 | [taiHEN Plugin Development](docs/18-taihen-plugin-development.md) | skprx/suprx modules, hooking, `exports.yml`, real examples |
+| 19 | [Porting Android `.so` Games](docs/19-porting-android-so.md) | so_util, FalsoJNI, libc_bridge, FIOS, vitaGL, patches |
+| 20 | [Porting Decompiled Source](docs/20-porting-decompiled-source.md) | The Melee pattern: platform layer swap, ABI flags, big-endian |
+| 21 | [Porting Emulator Frontends](docs/21-porting-emulator-frontends.md) | PCSX AwO and Play!: cores, dynarec, GXM backends, config |
+| 22 | [Porting by Data Patching](docs/22-porting-data-patching.md) | Godot PCK: extract, diff, repack, package |
+| 23 | [Performance & Budgets](docs/23-performance-and-budgets.md) | Frame budget, memory budget, instrumenting, resolution scaling |
+| 24 | [Asset Conversion](docs/24-asset-conversion.md) | Textures, swizzle, mips, audio, video, packed archives |
+| 25 | [Testing with Vita3K](docs/25-testing-with-vita3k.md) | What the emulator catches, what it lies about, setup flags |
+| 26 | [PS3 / UE3 Target Notes](docs/26-ps3-and-ue3-target-notes.md) | PPC64 SELF, cooked packages, RSX shader notes, size math |
+| 27 | [Provenance & Distribution](docs/27-provenance-and-distribution.md) | Shipping tools not data, patching user copies, licensing |
+| 28 | [Glossary](docs/28-glossary.md) | Every term used here, in the order you meet it |
+
+
+
+## Skills (task playbooks)
+
+| Skill | Use when |
+|-------|----------|
+| [setup-vitasdk](skills/skill-setup-vitasdk.md) | First machine setup, or "toolchain not found" |
+| [build-vpk](skills/skill-build-vpk.md) | Turning a project into an installable bubble |
+| [first-frame](skills/skill-first-frame.md) | Nothing renders; bring up display → shader → texture |
+| [shader-cache](skills/skill-shader-cache.md) | Shader stutter, or runtime compilation is required |
+| [rwx-jit](skills/skill-rwx-jit.md) | Generating or patching executable memory |
+| [streaming-io](skills/skill-streaming-io.md) | Loading large assets without hitching |
+| [audio-mixer](skills/skill-audio-mixer.md) | Getting sound out, or fixing crackle |
+| [debug-logging](skills/skill-debug-logging.md) | No PC attached, or you need a live log tail |
+| [crash-triage](skills/skill-crash-triage.md) | App dies, hangs, or returns a weird code |
+| [self-to-elf](skills/skill-self-to-elf.md) | Analysing a SELF/ELF container |
+| [nid-mapping](skills/skill-nid-mapping.md) | Unknown imports, unknown exports, hooking by NID |
+| [taihen-plugin](skills/skill-taihen-plugin.md) | Writing a kernel/user plugin to patch a running game |
+| [port-triage](skills/skill-port-triage.md) | Deciding which port family applies, before writing code |
+| [android-so-port](skills/skill-android-so-port.md) | Porting an Android ARMv7 game binary |
+| [decomp-port](skills/skill-decomp-port.md) | Porting a game you have source or a decompilation for |
+| [data-patch-port](skills/skill-data-patch-port.md) | Repacking content for an engine that already runs on Vita |
+| [release-pipeline](skills/skill-release-pipeline.md) | Versioning, CI, signed updates, shipping |
+
+
+---
+
+## Where the material came from
+
+| Source in the workspace | What it taught |
+|-------------------------|----------------|
+| `Other Ports/melee-Vita-vita-port` | Decomp port, GX→GXM, shader cache, disc streaming, release discipline |
+| `Other Ports/raider-vita-master` | `so_util` ELF loading, hooking, libc bridge |
+| `Other Ports/The-Dark-Queen-Of-Mortholme-psvita-main` | Godot PCK patching, VPK wrapping |
+| `Other Emulators/PCSX_AwO-master` | Emulator frontend, Makefile build, offline Cg, PSARC |
+| `Other Emulators/play-master` | RWX VM blocks, GS→GXM shader set, CMake layout |
+| `soloader-template` | The canonical Android-to-Vita loader skeleton |
+| `Tools/` (25 utilities) | ELF/SELF conversion, plugin hooks, logging, dumps, NID tooling |
+| `Sdk/` | Real VitaSDK module headers and `libSce*` stub inventory |
+| `Emulator/` | Vita3K for pre-hardware testing |
+| `Arkham Asylum/Game Binarys - ps3` | PPC64 SELF and UE3 cooked package forensics |
+
+See [docs/26-ps3-and-ue3-target-notes.md](docs/26-ps3-and-ue3-target-notes.md) for
+the measured numbers from that last one.
+
+---
+
+## Conventions
+
+- One house style for all code: PascalCase functions, `auto Fn() -> T` trailing
+  returns, `g_` globals, snake_case locals, `#ifndef` include guards.
+- Every constant quoted (clocks, block sizes, limits) comes from a header in
+  `Sdk/include/psp2` or from a working project listed above.
+- "Never" lines are mistakes that have already cost someone a week.
+
+## Repository layout
+
+```
+.
+├── README.md
+├── docs/     28 reference documents
+└── skills/   17 task playbooks
+```
+
+## Start here
+
+| If you are… | Read first |
+|-------------|-----------|
+| setting up a machine | [setup-vitasdk](skills/skill-setup-vitasdk.md) → [03 Build & Packaging](docs/03-build-and-packaging.md) |
+| deciding whether a port is possible | [port-triage](skills/skill-port-triage.md) → [26 Target Notes](docs/26-ps3-and-ue3-target-notes.md) |
+| stuck on a black screen | [first-frame](skills/skill-first-frame.md) → [04 GXM Rendering](docs/04-gxm-rendering.md) |
+| chasing a crash | [crash-triage](skills/skill-crash-triage.md) → [15 Diagnostics](docs/15-crash-and-error-diagnostics.md) |
+| porting an Android game | [android-so-port](skills/skill-android-so-port.md) → [19 Android `.so`](docs/19-porting-android-so.md) |
+| porting a decompilation | [decomp-port](skills/skill-decomp-port.md) → [20 Decompiled Source](docs/20-porting-decompiled-source.md) |
+| shipping | [release-pipeline](skills/skill-release-pipeline.md) → [27 Provenance](docs/27-provenance-and-distribution.md) |
+
