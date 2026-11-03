@@ -45,6 +45,26 @@ files it came from, and anything unproven says so.
 | 26 | [PS3 / UE3 Target Notes](docs/26-ps3-and-ue3-target-notes.md) | PPC64 SELF, cooked packages, RSX shader notes, size math |
 | 27 | [Provenance & Distribution](docs/27-provenance-and-distribution.md) | Shipping tools not data, patching user copies, licensing |
 | 28 | [Glossary](docs/28-glossary.md) | Every term used here, in the order you meet it |
+| 29 | [vitaGL](docs/29-vitagl.md) | GL → GXM: stale names, limits, the 49152-vertex cap, pool sizing |
+| 30 | [Static Recompilation](docs/30-static-recompilation.md) | Lifting a closed binary to C; host-first ordering; shader-bank strategy |
+| 31 | [Cross-Platform API Emulation](docs/31-api-emulation-hal.md) | Porting someone else's platform API instead of the game |
+| 32 | [Porting Apps & Tools](docs/32-porting-apps-and-tools.md) | Non-game targets: IME, dialogs, permissions, media stack |
+| 33 | [Reference Projects Catalogue](docs/33-reference-projects.md) | Who already shipped what, and which patterns to read |
+| 34 | [Build/Install Error Catalogue](docs/34-build-install-error-catalogue.md) | `0x8010113D` and friends, plus the linker errors |
+| 35 | [Static Fault Analysis](docs/35-static-fault-analysis.md) | Address → named defect, `--wrap=abort`, null-deref signature |
+| 36 | [32-bit Portability Audit](docs/36-32bit-portability-audit.md) | Enum split-build, alignment, the hardware-check trap |
+| 37 | [kubridge & Executable Memory](docs/37-kubridge-and-executable-memory.md) | Version matrix, 3.60/3.65 limits, weak-stub boot check |
+| 38 | [Java/libGDX via TeaVM](docs/38-java-games-teavm.md) | AOT route for Java games, and when it does not fit |
+| 39 | [Tooling Scripts](docs/39-tooling-scripts.md) | The four validators and three templates shipped here |
+| 40 | [Runtime Shader Compiler](docs/40-runtime-shader-compiler.md) | vitaShaRK: init, options, logging, patcher chain, caching |
+| 41 | [Kernel Debugging with GDB](docs/41-kernel-debugging-gdb.md) | kvdb, UART/TCP, what it can't do, ELF discipline |
+| 42 | [A Complete Direct-GXM Sample](docs/42-direct-gxm-sample.md) | `gxmfun` read end to end: stride, pipe sync, embedded `.gxp` |
+| 43 | [GameMaker: YoYo Loader](docs/43-gamemaker-yoyo-loader.md) | Runner loading, softfp toolchain, asset swap, PVRTC2 |
+| 44 | [Emulator Port Anatomy](docs/44-emulator-port-anatomy.md) | Platform directory, dynarec vs interpreter, memory, frontend |
+| 45 | [id Tech Ports](docs/45-idtech-quake-port.md) | Quake II / Wolf3D: a `psp2/` directory as the whole port |
+| 46 | [Homebrew Engines & Unity](docs/46-engines-xenity-and-unity.md) | Xenity's shared core; the Unity Vita reality |
+
+
 
 
 
@@ -68,7 +88,16 @@ files it came from, and anything unproven says so.
 | [android-so-port](skills/skill-android-so-port.md) | Porting an Android ARMv7 game binary |
 | [decomp-port](skills/skill-decomp-port.md) | Porting a game you have source or a decompilation for |
 | [data-patch-port](skills/skill-data-patch-port.md) | Repacking content for an engine that already runs on Vita |
+| [vitagl-port](skills/skill-vitagl-port.md) | The renderer calls `gl*` and needs to land on vitaGL |
+| [static-recomp](skills/skill-static-recomp.md) | Lifting a closed-source binary instead of porting source |
+| [app-port](skills/skill-app-port.md) | The target is a utility, media player or CLI tool |
+| [vpk-validate](skills/skill-vpk-validate.md) | Installs but no bubble, or a console error code |
+| [shader-runtime-compile](skills/skill-shader-runtime-compile.md) | Compiling shaders on device with vitaShaRK |
+| [gdb-debug](skills/skill-gdb-debug.md) | Attaching a real debugger with kvdb |
+| [emulator-port](skills/skill-emulator-port.md) | Porting an emulator, or a game only reachable by emulation |
+| [gamemaker-port](skills/skill-gamemaker-port.md) | Running a GameMaker title via YoYo Loader |
 | [release-pipeline](skills/skill-release-pipeline.md) | Versioning, CI, signed updates, shipping |
+
 
 
 ---
@@ -101,14 +130,47 @@ the measured numbers from that last one.
   `Sdk/include/psp2` or from a working project listed above.
 - "Never" lines are mistakes that have already cost someone a week.
 
+## Credits
+
+Docs 29–39 draw on
+**[yannis100/vita-port-skill](https://github.com/yannis100/vita-port-skill)** (MIT),
+which covers routes this repository originally had none of: vitaGL internals, static
+recompilation, cross-platform API emulation, app porting, the install-error catalogue
+and the TeaVM route. Nothing from it is redistributed here — those documents are our
+own writing that cites it.
+
+Docs 40–46 come from source trees read directly in this workspace: **vitaShaRK**,
+**kvdb**, **gxmfun**, **YoYo Loader**, **DaedalusX64-vitaGL**, **melonDS-Vita**,
+**vitaQuakeII**, **vitaWolfen**, **Xenity Engine** and **PSVita Unity Utilities**.
+
+Full attribution, plus what was deliberately **not** imported to avoid duplicating
+existing docs, is in [CREDITS.md](CREDITS.md).
+
+
 ## Repository layout
 
 ```
 .
 ├── README.md
-├── docs/     28 reference documents
-└── skills/   17 task playbooks
+├── CREDITS.md
+├── docs/     46 reference documents
+└── skills/   25 task playbooks
 ```
+
+## Upstream checkers worth running
+
+Three scripts that answer the expensive questions live in
+[yannis100/vita-port-skill](https://github.com/yannis100/vita-port-skill)
+(`skills/vita-port/scripts/`) — they are not vendored here:
+
+```
+check_env.sh                 is this machine a valid VitaSDK host?
+audit_source.py <dir>        does this codebase fit the Vita at all?
+check_vpk.py build/x.vpk     will this package install, or fail with 0x8010113D?
+```
+
+What each one verifies is in [docs/39](docs/39-tooling-scripts.md).
+
 
 ## Start here
 
@@ -121,4 +183,5 @@ the measured numbers from that last one.
 | porting an Android game | [android-so-port](skills/skill-android-so-port.md) → [19 Android `.so`](docs/19-porting-android-so.md) |
 | porting a decompilation | [decomp-port](skills/skill-decomp-port.md) → [20 Decompiled Source](docs/20-porting-decompiled-source.md) |
 | shipping | [release-pipeline](skills/skill-release-pipeline.md) → [27 Provenance](docs/27-provenance-and-distribution.md) |
+
 
