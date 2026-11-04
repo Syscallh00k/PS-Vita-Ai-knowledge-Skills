@@ -57,8 +57,12 @@ utilities, and a bare VitaSDK tree.
 | 44 | [Emulator Port Anatomy](docs/44-emulator-port-anatomy.md) | Platform directory, dynarec vs interpreter, memory, frontend |
 | 45 | [id Tech Ports](docs/45-idtech-quake-port.md) | Quake II / Wolf3D: a `psp2/` directory as the whole port |
 | 46 | [Homebrew Engines & Unity](docs/46-engines-xenity-and-unity.md) | Xenity's shared core; the Unity Vita reality |
-
-
+| 47 | [Engine as a Shared Library](docs/47-engine-as-shared-library.md) | `libgodot.so` + import-resolving loader; TLS shims; package-time import checks |
+| 48 | [pthread & libstdc++ Traps](docs/48-pthread-and-libstdcpp-traps.md) | The `pthread_cancel` probe: instant crash *and* silent heap corruption |
+| 49 | [Networking & TLS](docs/49-networking-and-tls.md) | Why SceHttp/SceSsl fail, and the libcurl+mbedTLS policy that works |
+| 50 | [Interpreter & Data-Driven Engines](docs/50-interpreter-and-data-driven-engines.md) | EasyRPG, GemRB, fake-08, Aleph One, FLARE — ship the engine, user brings content |
+| 51 | [Scripting Runtimes](docs/51-scripting-runtimes.md) | CPython 2.7 configure recipe; Mono AOT for C# |
+| 52 | [Building Existing Projects](docs/52-building-existing-projects.md) | `Makefile.vita`, CMake `-C` presets, what every port disables |
 
 
 
@@ -90,7 +94,11 @@ utilities, and a bare VitaSDK tree.
 | [gdb-debug](skills/skill-gdb-debug.md) | Attaching a real debugger with kvdb |
 | [emulator-port](skills/skill-emulator-port.md) | Porting an emulator, or a game only reachable by emulation |
 | [gamemaker-port](skills/skill-gamemaker-port.md) | Running a GameMaker title via YoYo Loader |
+| [pthread-cpp-crash](skills/skill-pthread-cpp-crash.md) | C++ app dies on its first `std::thread`, or corrupts the heap |
+| [https-downloads](skills/skill-https-downloads.md) | Adding working HTTPS downloads on device |
+| [engine-as-so](skills/skill-engine-as-so.md) | Splitting an engine into a `.so` + loader |
 | [release-pipeline](skills/skill-release-pipeline.md) | Versioning, CI, signed updates, shipping |
+
 
 ## Conventions
 
