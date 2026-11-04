@@ -42,6 +42,8 @@ Resolve the rest with `Tools/PSVita-error-code-resolver` (doc 15).
 |---------|-------------|
 | `undefined reference to sce*` | add the matching `Sce*_stub` |
 | `undefined reference to __cxa_*`, `operator delete` | add `-lstdc++` (vitaGL is C++) |
+| `undefined reference to sceDmacMemcpy` (from `libvitaGL.a`) | add `SceKernelDmacMgr_stub` |
+| `undefined reference to sceSharedFb*` (from `libvita2d.a`) | this SDK has **no `libSceSharedFb_stub.a`**; either define no-op stubs, or skip vita2d and use GXM/vitaGL directly |
 | pthread symbols unresolved | use `-pthread`, not bare `-lpthread` |
 | `vita-elf-create` relocation errors | link with `-Wl,-q` |
 | `cannot find -lSceAppmgr_stub` | library names are **case sensitive**: `SceAppMgr_stub`, `vitaGL`, `OpenSLES` |

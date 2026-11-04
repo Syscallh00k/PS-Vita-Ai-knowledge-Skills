@@ -26,6 +26,9 @@ guessing.
 | Emulation, interpreter + vita2d | melonDS | software raster + blit, no shaders at all |
 | Source port, id Tech | vitaQuakeII, vitaWolfen | a `psp2/` platform directory is the whole port |
 | Homebrew engine | Xenity Engine | one core, four platforms, thin per-platform layer |
+| Interpreter / data-driven | EasyRPG Player, GemRB, fake-08, Aleph One, FLARE | engine ships, user brings content |
+| Scripting runtime | CPython 2.7 port, VitaMonoLoader | ship the language, not the game |
+| Engine as a shared library | Godot 4.8-dev Vita port | `libgodot.so` + a small import-resolving loader |
 | Engine content patch | Dark Queen of Mortholme | PCK repack around an existing runtime |
 
 ## 2. Projects whose *patterns* are worth reading

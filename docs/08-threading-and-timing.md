@@ -17,6 +17,12 @@ Four A9 cores. Threads are easy; priorities and handoffs are not.
 -Wl,--whole-archive pthread -Wl,--no-whole-archive
 ```
 
+**Not optional for C++.** VitaSDK libstdc++ probes threading by taking the address of
+`pthread_cancel`; if that archive member gets dropped, `std::thread` throws
+`system_error` and `shared_ptr` silently falls back to non-atomic refcounting. Both
+failures are documented, with the fix, in
+[docs/48-pthread-and-libstdcpp-traps.md](48-pthread-and-libstdcpp-traps.md).
+
 ## 2. Priorities
 
 Higher numeric value = higher priority on Vita kernel threads. A working example:
